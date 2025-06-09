@@ -97,7 +97,7 @@ struct TimerView: View {
                         Spacer()
                         Button(action: { showBreakAlert = true }) {
                             Text(onBreak ? "Study again >>" : "Take a break >>")
-                                .font(.system(size: 36))
+                                .font(.system(size: 28))
                                 .foregroundColor(.white)
                                 .opacity(0.8)
                                 .padding(.bottom, 40)
