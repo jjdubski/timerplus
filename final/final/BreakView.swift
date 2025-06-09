@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct BreakView: View {
+    @EnvironmentObject private var timerSettings: TimerSettings
     @State private var breakTime: Int = 5 * 60  // 5 minutes in seconds
     @State private var timerActive = false
 
@@ -49,6 +50,6 @@ struct BreakView: View {
     }
 }
 
-#Preview {
-    BreakView()
-}
+//#Preview {
+//    BreakView()
+//}

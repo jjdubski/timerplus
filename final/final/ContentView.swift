@@ -9,18 +9,13 @@ import CoreData
 import SwiftUI
 
 struct ContentView: View {
-    @Environment(\.managedObjectContext) private var viewContext
-
-    // Add state variables for break and study times (in seconds)
-    @State private var breakTime: Int = 5 * 60
-    @State private var studyTime: Int = 25 * 60
+    @EnvironmentObject private var timerSettings: TimerSettings
 
     var body: some View {
         NavigationStack {
             ZStack {
                 Color(.darkGray)
                     .ignoresSafeArea()
-
                 VStack {
                     HStack {
                         Spacer()
@@ -38,7 +33,7 @@ struct ContentView: View {
                             Text("Break:")
                                 .font(.system(size: 28, weight: .bold, design: .monospaced))
                                 .foregroundColor(.red)
-                            Text(timeString(from: breakTime))
+                            Text(timeString(from: timerSettings.breakTime))
                                 .font(.system(size: 48, weight: .bold, design: .monospaced))
                                 .foregroundColor(.white)
                         }
@@ -48,7 +43,7 @@ struct ContentView: View {
                             Text("Study:")
                                 .font(.system(size: 36, weight: .bold, design: .monospaced))
                                 .foregroundColor(Color(red: 0.53, green: 0.74, blue: 1.0))
-                            Text(timeString(from: studyTime))
+                            Text(timeString(from: timerSettings.studyTime))
                                 .font(.system(size: 56, weight: .bold, design: .monospaced))
                                 .foregroundColor(.white)
                         }
@@ -70,14 +65,12 @@ struct ContentView: View {
     }
 
     // Helper function to format seconds as mm:ss
-    private func timeString(from seconds: Int) -> String {
-        let minutes = seconds / 60
-        let secs = seconds % 60
-        return String(format: "%d:%02d", minutes, secs)
+    private func timeString(from minutes: Int) -> String {
+        return String(format: "%d:00", minutes)
     }
 }
 
 #Preview {
-    ContentView().environment(
-        \.managedObjectContext, PersistenceController.preview.container.viewContext)
+    ContentView()
+        .environmentObject(TimerSettings())
 }

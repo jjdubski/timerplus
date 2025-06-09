@@ -8,11 +8,8 @@
 import SwiftUI
 
 struct SettingsView: View {
-    // state variables
-    @State private var studyTime = 25
-    @State private var breakTime = 5
-    @State private var autoStart = true
-    @State private var playSound = true
+    @EnvironmentObject private var timerSettings: TimerSettings
+    @Environment(\.dismiss) private var dismiss
 
     let studyOptions = [15, 20, 25, 30, 35, 40, 45, 50, 55, 60]
     let breakOptions = [5, 10, 15, 20, 25, 30]
@@ -33,8 +30,8 @@ struct SettingsView: View {
                         .foregroundColor(.white)
                         .font(.system(size: 22, weight: .regular))
                     Picker(
-                        selection: $studyTime,
-                        label: Text("\(studyTime) minutes").foregroundColor(.black)
+                        selection: $timerSettings.studyTime,
+                        label: Text("\(timerSettings.studyTime) minutes").foregroundColor(.black)
                     ) {
                         ForEach(studyOptions, id: \.self) { time in
                             Text("\(time) minutes").tag(time)
@@ -51,8 +48,8 @@ struct SettingsView: View {
                         .foregroundColor(.white)
                         .font(.system(size: 22, weight: .regular))
                     Picker(
-                        selection: $breakTime,
-                        label: Text("\(breakTime) minutes").foregroundColor(.black)
+                        selection: $timerSettings.breakTime,
+                        label: Text("\(timerSettings.breakTime) minutes").foregroundColor(.black)
                     ) {
                         ForEach(breakOptions, id: \.self) { time in
                             Text("\(time) minutes").tag(time)
@@ -73,7 +70,7 @@ struct SettingsView: View {
                             .foregroundColor(.white)
                             .font(.system(size: 20))
                         Spacer()
-                        Toggle("", isOn: $autoStart)
+                        Toggle("", isOn: $timerSettings.autoStart)
                             .labelsHidden()
                     }
                     HStack {
@@ -81,7 +78,7 @@ struct SettingsView: View {
                             .foregroundColor(.white)
                             .font(.system(size: 20))
                         Spacer()
-                        Toggle("", isOn: $playSound)
+                        Toggle("", isOn: $timerSettings.playSound)
                             .labelsHidden()
                     }
                 }
@@ -92,6 +89,7 @@ struct SettingsView: View {
                 HStack(spacing: 32) {
                     Button(action: {
                         // Back action
+                        dismiss()
                     }) {
                         Text("Back")
                             .font(.system(size: 22, weight: .bold))
@@ -100,16 +98,16 @@ struct SettingsView: View {
                             .background(Color.red)
                             .cornerRadius(14)
                     }
-                    Button(action: {
-                        // Save action
-                    }) {
-                        Text("Save")
-                            .font(.system(size: 22, weight: .bold))
-                            .foregroundColor(.white)
-                            .frame(width: 140, height: 56)
-                            .background(Color(red: 0.44, green: 0.65, blue: 1.0))
-                            .cornerRadius(14)
-                    }
+                    //                    Button(action: {
+                    //                        // Save action
+                    //                    }) {
+                    //                        Text("Save")
+                    //                            .font(.system(size: 22, weight: .bold))
+                    //                            .foregroundColor(.white)
+                    //                            .frame(width: 140, height: 56)
+                    //                            .background(Color(red: 0.44, green: 0.65, blue: 1.0))
+                    //                            .cornerRadius(14)
+                    //                    }
                 }
                 .padding(.bottom, 40)
             }
@@ -117,6 +115,6 @@ struct SettingsView: View {
     }
 }
 
-#Preview {
-    SettingsView()
-}
+//#Preview {
+//    SettingsView()
+//}

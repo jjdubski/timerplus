@@ -11,8 +11,9 @@ struct TimerView: View {
 
     var onBreak: Bool = false
 
-    @State private var totalTime: CGFloat = 1500  // 25 minutes in seconds
-    @State private var timeRemaining: CGFloat = 1300
+    @EnvironmentObject private var timerSettings: TimerSettings
+    @State private var totalTime: CGFloat = 1500  // default fallback
+    @State private var timeRemaining: CGFloat = 1500
     @State private var timerActive = true
     @State private var showBreakAlert = false
     @State private var navigateToBreak = false
@@ -20,6 +21,10 @@ struct TimerView: View {
     @State private var navigateToHome = false
 
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+
+    init(onBreak: Bool = false) {
+        self.onBreak = onBreak
+    }
 
     var body: some View {
         NavigationStack {
@@ -111,6 +116,15 @@ struct TimerView: View {
                         ContentView()
                     }
                 }
+                .onAppear {
+                    if onBreak {
+                        totalTime = CGFloat(timerSettings.breakTime * 60)
+                        timeRemaining = CGFloat(timerSettings.breakTime * 60)
+                    } else {
+                        totalTime = CGFloat(timerSettings.studyTime * 60)
+                        timeRemaining = CGFloat(timerSettings.studyTime * 60)
+                    }
+                }
                 .onReceive(timer) { _ in
                     guard timerActive, timeRemaining > 0 else { return }
                     timeRemaining -= 1
@@ -177,6 +191,6 @@ struct TimerView: View {
     }
 }
 
-#Preview {
-    TimerView(onBreak: false)
-}
+//#Preview {
+//    TimerView(onBreak: false)
+//}
