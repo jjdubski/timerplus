@@ -123,8 +123,8 @@ struct TimerView: View {
                 .onAppear {
                     if onBreak {
                         totalTime = CGFloat(timerSettings.breakTime * 60)
-                        // timeRemaining = CGFloat(timerSettings.breakTime * 60)
-                        timeRemaining = 5 
+                         timeRemaining = CGFloat(timerSettings.breakTime * 60)
+//                        timeRemaining = 5
                     } else {
                         totalTime = CGFloat(timerSettings.studyTime * 60)
                         timeRemaining = CGFloat(timerSettings.studyTime * 60)
@@ -138,10 +138,15 @@ struct TimerView: View {
                                 AudioServicesPlaySystemSound(1005)
                             }
                             if onBreak {
-                                navigateToStudy = true  // Go to study after break
+                                if timerSettings.autoStart {
+                                    navigateToStudy = true
+                                } else {
+                                    navigateToHome = true
+                                }
                             } else {
                                 navigateToBreak = true  // Go to break after study
                             }
+                            return
                         }
                         return
                     }
@@ -155,11 +160,6 @@ struct TimerView: View {
                             primaryButton: .default(
                                 Text("Yes"),
                                 action: {
-                                    // Reset timer for studying and exit break
-                                    totalTime = 1500
-                                    timeRemaining = 1500
-                                    timerActive = true
-                                    navigateToBreak = false
                                     if timerSettings.autoStart {
                                         navigateToStudy = true
                                     } else {
