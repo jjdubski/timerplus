@@ -5,6 +5,7 @@
 //  Created by Jacob Waksmanski on 6/9/25.
 //
 
+import AudioToolbox
 import SwiftUI
 
 struct TimerView: View {
@@ -105,9 +106,12 @@ struct TimerView: View {
                     }
                     .frame(width: geo.size.width, height: geo.size.height)
 
-                    // hidden navlink
                     .navigationDestination(isPresented: $navigateToBreak) {
-                        BreakView()
+                        if timerSettings.autoStart {
+                            TimerView(onBreak: true)
+                        } else {
+                            BreakView()
+                        }
                     }
                     .navigationDestination(isPresented: $navigateToStudy) {
                         TimerView(onBreak: false)
@@ -119,14 +123,26 @@ struct TimerView: View {
                 .onAppear {
                     if onBreak {
                         totalTime = CGFloat(timerSettings.breakTime * 60)
-                        timeRemaining = CGFloat(timerSettings.breakTime * 60)
+                        // timeRemaining = CGFloat(timerSettings.breakTime * 60)
+                        timeRemaining = 5  // For testing purposes, set a short break time
                     } else {
                         totalTime = CGFloat(timerSettings.studyTime * 60)
                         timeRemaining = CGFloat(timerSettings.studyTime * 60)
                     }
                 }
                 .onReceive(timer) { _ in
-                    guard timerActive, timeRemaining > 0 else { return }
+                    guard timerActive, timeRemaining > 0 else {
+                        if timeRemaining <= 0 {
+                            timerActive = false
+                            AudioServicesPlaySystemSound(1005)
+                            if onBreak {
+                                navigateToStudy = true  // Go to study after break
+                            } else {
+                                navigateToBreak = true  // Go to break after study
+                            }
+                        }
+                        return
+                    }
                     timeRemaining -= 1
                 }
                 .alert(isPresented: $showBreakAlert) {
@@ -142,7 +158,11 @@ struct TimerView: View {
                                     timeRemaining = 1500
                                     timerActive = true
                                     navigateToBreak = false
-                                    navigateToStudy = true
+                                    if timerSettings.autoStart {
+                                        navigateToStudy = true
+                                    } else {
+                                        navigateToHome = true
+                                    }
                                 }),
                             secondaryButton: .cancel(Text("No"))
                         )

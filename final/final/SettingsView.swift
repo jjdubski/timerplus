@@ -29,13 +29,12 @@ struct SettingsView: View {
                     Text("Study Time")
                         .foregroundColor(.white)
                         .font(.system(size: 22, weight: .regular))
-                    Picker(
-                        selection: $timerSettings.studyTime,
-                        label: Text("\(timerSettings.studyTime) minutes").foregroundColor(.black)
-                    ) {
+                    Picker(selection: $timerSettings.studyTime) {
                         ForEach(studyOptions, id: \.self) { time in
                             Text("\(time) minutes").tag(time)
                         }
+                    } label: {
+                        Text("\(timerSettings.studyTime) minutes").foregroundColor(.black)
                     }
                     .pickerStyle(MenuPickerStyle())
                     .frame(maxWidth: .infinity)
@@ -49,11 +48,12 @@ struct SettingsView: View {
                         .font(.system(size: 22, weight: .regular))
                     Picker(
                         selection: $timerSettings.breakTime,
-                        label: Text("\(timerSettings.breakTime) minutes").foregroundColor(.black)
                     ) {
                         ForEach(breakOptions, id: \.self) { time in
                             Text("\(time) minutes").tag(time)
                         }
+                    } label: {
+                        Text("\(timerSettings.breakTime) minutes").foregroundColor(.black)
                     }
                     .pickerStyle(MenuPickerStyle())
                     .frame(maxWidth: .infinity)
