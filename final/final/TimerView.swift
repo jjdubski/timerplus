@@ -124,7 +124,7 @@ struct TimerView: View {
                     if onBreak {
                         totalTime = CGFloat(timerSettings.breakTime * 60)
                         // timeRemaining = CGFloat(timerSettings.breakTime * 60)
-                        timeRemaining = 5  // For testing purposes, set a short break time
+                        timeRemaining = 5 
                     } else {
                         totalTime = CGFloat(timerSettings.studyTime * 60)
                         timeRemaining = CGFloat(timerSettings.studyTime * 60)
@@ -134,7 +134,9 @@ struct TimerView: View {
                     guard timerActive, timeRemaining > 0 else {
                         if timeRemaining <= 0 {
                             timerActive = false
-                            AudioServicesPlaySystemSound(1005)
+                            if timerSettings.playSound {
+                                AudioServicesPlaySystemSound(1005)
+                            }
                             if onBreak {
                                 navigateToStudy = true  // Go to study after break
                             } else {
