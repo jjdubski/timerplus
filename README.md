@@ -1,3 +1,5 @@
+https://github.com/user-attachments/assets/2b6da6d2-30ff-4a63-84ce-6af15dae3ee7
+
 # TimerPlus
 
 TimerPlus is a SwiftUI iOS focus timer built around a Pomodoro-inspired study and break cycle. The app uses a visual, hourglass-like countdown experience to make each session feel more tangible, with separate study and break timers, quick settings, and a simple start-pause-resume flow.
