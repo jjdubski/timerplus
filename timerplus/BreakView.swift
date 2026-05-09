@@ -50,6 +50,6 @@ struct BreakView: View {
     }
 }
 
-//#Preview {
-//    BreakView()
-//}
+#Preview {
+    BreakView()
+}

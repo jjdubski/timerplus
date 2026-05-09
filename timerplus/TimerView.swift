@@ -213,6 +213,6 @@ struct TimerView: View {
     }
 }
 
-//#Preview {
-//    TimerView(onBreak: false)
-//}
+#Preview {
+    TimerView(onBreak: false)
+}

@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct finalApp: App {
+struct timerplus: App {
     let persistenceController = PersistenceController.shared
     @StateObject private var timerSettings = TimerSettings()
 
